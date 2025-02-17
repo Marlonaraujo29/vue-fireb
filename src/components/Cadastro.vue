@@ -36,7 +36,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-// 🔥 Configuração do Firebase
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCe0z0Hc54XwXEdRP8AxK7lNoFmu0CRU8o",
   authDomain: "mercado-5ddd2.firebaseapp.com",
@@ -47,7 +47,7 @@ const firebaseConfig = {
   measurementId: "G-QP73JKXE8S"
 };
 
-// 🔥 Inicializa Firebase e Firestore
+// Inicializa Firebase e Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
@@ -59,18 +59,17 @@ export default {
         email: '',
         password: ''
       },
-      users: [] // Lista de usuários cadastrados
+      users: [] 
     };
   },
   methods: {
-    // 🟢 Criar um novo usuário e vinculá-lo à coleção "users" dentro do banco "usuarios"
     async submitForm() {
       try {
         // Criar usuário na autenticação do Firebase
         const userCredential = await createUserWithEmailAndPassword(auth, this.form.email, this.form.password);
         const user = userCredential.user;
 
-        // Salvar no Firestore na coleção "users" dentro do banco "usuarios"
+        // Salvar usuário no Firestore
         await setDoc(doc(db, "usuarios", "users", "userDocs", user.uid), {
           email: this.form.email,
           uid: user.uid,
@@ -92,7 +91,7 @@ export default {
       }
     },
 
-    // 🔵 Buscar usuários do Firestore na coleção "users" dentro do banco "usuarios"
+
     async fetchUsers() {
       const querySnapshot = await getDocs(collection(db, "usuarios", "users", "userDocs"));
       this.users = querySnapshot.docs.map(doc => ({
@@ -101,7 +100,7 @@ export default {
       }));
     },
 
-    // 🟡 Atualizar e-mail do usuário no Firestore
+    // Atualizar e-mail do usuário no Firestore
     async updateUser(userId, newEmail) {
       if (!newEmail) return; // Se o usuário cancelar, não faz nada
 
@@ -114,12 +113,12 @@ export default {
 
     async deleteUser(userId) {
   try {
-    // 🔥 Caminho correto para excluir o usuário do Firestore
+    //  Excluir o usuário do Firestore
     const userRef = doc(db, "usuarios", "users", "userDocs", userId);
     await deleteDoc(userRef);
 
     alert("Usuário deletado com sucesso!");
-    this.fetchUsers(); // Atualiza a lista após excluir
+    this.fetchUsers(); 
   } catch (error) {
     console.error("Erro ao excluir usuário:", error);
     alert("Erro ao excluir. Verifique o console.");
@@ -127,7 +126,7 @@ export default {
 }
   },
 
-  // 🔄 Busca os usuários assim que a página carregar
+  // Busca os usuários assim que a página carregar
   mounted() {
     this.fetchUsers();
   }
