@@ -1,6 +1,5 @@
 # firebase-vue
-
-This template should help get you started developing with Vue 3 in Vite.
+Esse projeto visa o cadastro de usuários e mostrar os emails cadastrados na tela por meio da tecnologia "Firebase".
 
 ## Recommended IDE Setup
 
